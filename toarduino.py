@@ -1,5 +1,11 @@
 #send notion info to arduino
 from notion import freq_names
+import json
 
+freq_names = json.dumps(freq_names);
 print(freq_names)
-#todo: send info to arduino and then pick up from there
+
+#todo:
+#  pip install serial
+#  send freq_names as string to arduino
+#  automate code to run every hour
