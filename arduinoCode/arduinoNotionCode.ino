@@ -2,6 +2,10 @@
 #include <LiquidCrystal.h> 
 LiquidCrystal lcd(13, 3, 4, 5, 6, 7); //rs, enable, d4, d5, d6, d7
 
+//NOTE:
+//  Converting back to JSON probably was not the easiest way to do this
+//   BUT on the bright side it could be good if I expand features
+
 //Display info to LCD
 void displ(const String* names, const int* nums, const size_t len) {
   lcd.setCursor(0, 0);

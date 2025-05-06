@@ -2,6 +2,7 @@ from notion_client import Client # type: ignore
 from dotenv import load_dotenv # type: ignore
 import os
 import json
+from myutils import withinWeek
 
 load_dotenv()
 
@@ -12,21 +13,32 @@ response = notion.databases.query(database_id=database_id)
 
 #get courses of the calendar entries
 results = response["results"]
-names = []
+className = ""
+courseNames = []
 for page in results:
     try:
-        name = page["properties"]["Class"]["select"]["name"]
-        names.append(name)
-        print(name)
+
+        itemdate = page["properties"]["Date"]["date"]["start"]
+        if withinWeek(itemdate):
+
+            assignmentName = page["properties"]["Name"]["title"][0]["plain_text"]
+            if assignmentName[0] == '!':    #in calendar, I put ! at beginning of any name to denote as exam
+                className = "Exams"
+            else:
+                className = page["properties"]["Class"]["select"]["name"]
+            courseNames.append(className)
+            
     except Exception as e:
+        
         try:
-            print(page["properties"]["Name"]["title"][0]["plain_text"] + " Is not affiliated with a course")
+             print(page["properties"]["Name"]["title"][0]["plain_text"] + " is missing data")
+             print(e)
         except Exception:
-            print("???")
+            print("something is wrong...")
 
 #count frequency of work/course        
-freq_names = {}
-for name in names:
+freq_names = {} 
+for name in courseNames:
     if name in freq_names:
         freq_names[name] += 1
     else:

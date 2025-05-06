@@ -1,6 +1,7 @@
 #send notion info to arduino
 from notion import freq_names
 import json
+import serial
 
 freq_names = json.dumps(freq_names);
 print(freq_names)
