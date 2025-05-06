@@ -2,11 +2,12 @@
 from notion import freq_names
 import json
 import serial
+import time
 
-freq_names = json.dumps(freq_names);
-print(freq_names)
+#print(freq_names)
 
-#todo:
-#  pip install serial
-#  send freq_names as string to arduino
-#  automate code to run every hour
+seri = serial.Serial("/dev/tty.usbmodem1101", 9600)
+time.sleep(2)
+
+seri.write((json.dumps(freq_names) + '\n').encode('utf-8'))
+seri.close()
